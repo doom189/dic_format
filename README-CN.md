@@ -1,8 +1,7 @@
-# dic_format
-English | [中文文档](README-CN.md)
+# 字典格式化文本
+中文文档 | [English](README.md)
 
-Text formatting for various development languages.
-
+各种开发语言的文本格式化.
 
 ## JavaScript
 ``` JavaScript
@@ -15,11 +14,11 @@ function dic_format(str, dic) {
     });
 }
 
-// use
-let s_str = `Hello, {name}!`;
+// 如何使用
+let s_str = `你好, {name}!`;
 let s_dic = {
-    name: 'Ryder'
+    name: '莱德'
 };
 console.log(dic_format(s_str, s_dic));
-// echo Hello, Ryder!
+// 输出 你好, 莱德!
 ```
