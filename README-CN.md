@@ -20,7 +20,7 @@ let s_dic = {
     name: '莱德'
 };
 console.log(dic_format(s_str, s_dic));
-// 输出 你好, 莱德!
+// 控制台输出 "你好, 莱德!"
 ```
 
 ## PHP
@@ -89,5 +89,28 @@ JObject dic = new JObject()
 };
 
 Console.WriteLine(Dic_format(str, dic));
-// 控制台输出 你好, 莱德!
+// 控制台输出 "你好, 莱德!"
+```
+
+## Python
+``` Python
+import re
+def dic_format(s_str, s_dic):
+    reg = re.compile(r'\{(?P<content>[^{} ]+)}', re.A)
+    matchs = reg.finditer(s_str)
+    for mat in matchs:
+        key = mat[1]
+        rep = mat[0]
+        s_str = s_str.replace(rep, s_dic[key], 1)  # 替换一次
+    return s_str
+
+
+# use
+s_str = '你好, {name}!'
+s_dic = {
+    'name': '莱德'
+}
+print(dic_format(s_str, s_dic))
+# 控制台输出 "你好, 莱德!"
+
 ```
