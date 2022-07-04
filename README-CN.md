@@ -45,3 +45,49 @@ $s_dic = array(
 var_dump(dic_format($s_str, $s_dic));
 // 输出 string(15) "你好, 莱德!"
 ```
+
+## C# 创建Common.cs文件, 贴入以下代码
+``` C#
+using Newtonsoft.Json.Linq;
+using System.Text.RegularExpressions;
+
+namespace Common
+{
+    public static class Common
+    {
+        public static string Dic_format(string str, JObject dic)
+        {
+            Regex s_reg = new Regex(@"\{([^{}]+)}", RegexOptions.ECMAScript);
+
+            if (s_reg.IsMatch(str))
+            {
+                MatchCollection matches = s_reg.Matches(str);
+                foreach (Match match in matches)
+                {
+                    string key = match.Groups[1].Value;
+                    str = str.Replace(match.Value, Convert.ToString(dic[key]));
+                }
+                return str;
+            } else
+            {
+                return str;
+            }
+        }
+    }
+}
+```
+
+## C# 使用 (框架为.net 6.0.6)
+``` C#
+using static Common.Common;
+using Newtonsoft.Json.Linq;
+
+string str = @"你好, {name}!";
+JObject dic = new JObject()
+{
+    ["name"] = "莱德"
+};
+
+Console.WriteLine(Dic_format(str, dic));
+// 控制台输出 你好, 莱德!
+```

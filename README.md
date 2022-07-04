@@ -47,3 +47,49 @@ $s_dic = array(
 var_dump(dic_format($s_str, $s_dic));
 // echo string(15) "Hello, Ryder!"
 ```
+
+## C# Crate "Common.cs" file, copy the following code
+``` C#
+using Newtonsoft.Json.Linq;
+using System.Text.RegularExpressions;
+
+namespace Common
+{
+    public static class Common
+    {
+        public static string Dic_format(string str, JObject dic)
+        {
+            Regex s_reg = new Regex(@"\{([^{}]+)}", RegexOptions.ECMAScript);
+
+            if (s_reg.IsMatch(str))
+            {
+                MatchCollection matches = s_reg.Matches(str);
+                foreach (Match match in matches)
+                {
+                    string key = match.Groups[1].Value;
+                    str = str.Replace(match.Value, Convert.ToString(dic[key]));
+                }
+                return str;
+            } else
+            {
+                return str;
+            }
+        }
+    }
+}
+```
+
+## C# use (frame is .net 6.0.6)
+``` C#
+using static Common.Common;
+using Newtonsoft.Json.Linq;
+
+string str = @"Hello, {name}!";
+JObject dic = new JObject()
+{
+    ["name"] = "Ryder"
+};
+
+Console.WriteLine(Dic_format(str, dic));
+// Console output Hello, Ryder!!
+```
